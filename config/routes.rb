@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root 'static_pages#top'
+  root to: "static_pages#top"
 
   devise_for :users, controllers: {
     sessions: 'users/sessions',
