@@ -13,7 +13,7 @@
     <meta name="author" content="" />
 
     <!-- Favicon -->
-    <%= favicon_link_tag 'favicon.ico' %>
+    <%= favicon_pack_tag 'favicon.ico' %>
 
     <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -23,9 +23,10 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
   </head>
 
-  <body>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+  <body id="page-top">
+    <%= render 'shared/header' %>
+    <%= render 'shared/flash_message' %> 
     <%= yield %>
+    <%= render 'shared/footer' %>
   </body>
 </html>
