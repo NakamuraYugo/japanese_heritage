@@ -1,0 +1,27 @@
+<div class="col-md-10 user-view">
+  <div class="user-view-box">
+    <div class="update-content">
+      <div class="row">
+        <h5>アカウント</h5>
+      </div>
+    </div>
+    <div class="update-content">
+      <div class="row">
+        <label class="col-md-3" for="name">名前</label>
+        <div class="mb-4 col-md-9"><%= @user.name %></div>
+      </div>
+    </div>
+    <div class="update-content">
+      <div class="row">
+        <label class="col-md-3" for="email">メールアドレス</label>
+        <div class="col-md-9"><%= @user.email %></div>
+      </div>
+    </div>
+    <div class="update-content">
+      <div class="row">
+        <!--<a class="col-md-2 btn btn-primary mx-3" href="/users/edit">編集</a> -->
+        <%= link_to '編集', edit_user_registration_path, class: "btn btn-primary mx-3" %>
+      </div>
+    </div>
+  </div>
+</div>
