@@ -1,16 +1,13 @@
-<h2>Forgot your password?</h2>
-
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= render "users/shared/error_messages", resource: resource %>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+<div class="form-group">
+  <div id="logreg-forms">
+    <h1 class="h3 mb-3 font-weight-normal" style="text-align: center">パスワードリセット</h1>
+      
+    <!-- パスワードリセットフォーム -->
+    <%= form_with(url: user_password_path, method: :post, local: true, class: 'form-reset') do |form| %>
+      <%= form.email_field :email, id: 'resetEmail', class: 'form-control', placeholder: 'Email address', autofocus: true %>
+      <%= form.submit "Reset Password", class: 'btn btn-primary btn-block' %>
+      <%= link_to '<i class="fas fa-angle-left"></i> Back'.html_safe, '#', id: 'cancel_reset' %>
+    <% end %>
+    <br>
   </div>
-
-  <div class="actions">
-    <%= f.submit "Send me reset password instructions" %>
-  </div>
-<% end %>
-
-<%= render "users/shared/links" %>
+</div>
