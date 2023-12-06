@@ -1,15 +1,18 @@
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
   <div class="container">
-    <%= link_to image_pack_tag('logo.png', alt: 'logo', class: 'navbar-brand'), root_path %>
+    <a class="navbar-brand" href="#page-top"><%= image_pack_tag('media/images/logo.png', alt: 'logo') %></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         Menu
         <i class="fas fa-bars ms-1"></i>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
-        <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
-        <%= link_to  %>
-        <li class="nav-item"><a class="nav-link" href="#portfolio">Portfolio</a></li>
+        <li class="nav-item">
+          <%= link_to "新規登録", signup_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "ログイン", login_path, class: "nav-link" %>
+        </li>
       </ul>
     </div>
   </div>
