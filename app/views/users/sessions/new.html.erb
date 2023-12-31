@@ -1,31 +1,30 @@
-<h2>Log in</h2>
+<div class="form-group">
+  <div id="logreg-forms">
+    <!-- ソーシャルログイン部分 -->
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :name, "名前" %><br />
-    <%= f.text_field :name, autofocus: true, autocomplete: "name" %> 
+    <%= form_with(model: resource, as: resource_name, url: session_path(resource_name), local: true, class: 'form-signin') do |form| %>
+      <!-- ログインフォームのヘッダー -->
+      <h1 class="h3 mb-3 font-weight-normal" style="text-align: center">ログイン</h1>
+
+      <!-- ログインフォームのフィールド -->
+      <div class="input-group">
+        <%= form.email_field :email, id: 'inputEmail', class: 'form-control', placeholder: 'Email address', autofocus: true %>
+      </div>
+      <div class="input-group">
+        <%= form.password_field :password, id: 'inputPassword', class: 'form-control', placeholder: 'Password' %>
+      </div>
+
+      <!-- ログインボタン -->
+      <div class="input-group">
+        <%= form.submit "Sign in", class: "btn btn-md btn-rounded btn-block form-control submit" %>
+      </div>
+
+      <%= link_to 'Forgot password?', new_user_password_path, id: 'forgot_pswd' %>
+      <hr>
+
+      <!-- サインアップボタン -->
+      <%= link_to 'Sign up New Account', signup_path, class: 'btn btn-primary btn-block', id: 'btn-signup' %>
+    <% end %>
+    <br>
   </div>
-
-  <div class="field">
-    <%= f.label :email, "メールアドレス" %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password, "パスワード" %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
-
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
-    </div>
-  <% end %>
-
-  <div class="actions">
-    <%= f.submit "ログイン" %>
-  </div>
-<% end %>
-
-<%= render "users/shared/links" %>
+</div>
