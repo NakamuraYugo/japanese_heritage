@@ -3,9 +3,9 @@
     <h1 class="h3 mb-3 font-weight-normal" style="text-align: center">パスワードリセット</h1>
       
     <!-- パスワードリセットフォーム -->
-    <%= form_with(url: user_password_path, method: :post, local: true, class: 'form-reset') do |form| %>
-      <%= form.email_field :email, id: 'resetEmail', class: 'form-control', placeholder: 'Email address', autofocus: true %>
-      <%= form.submit "Reset Password", class: 'btn btn-primary btn-block' %>
+    <%= form_with(url: user_password_path, method: :post, local: true, class: 'form-reset') do |f| %>
+      <%= f.email_field :email, id: 'resetEmail', class: 'form-control', placeholder: 'Email address', autofocus: true %>
+      <%= f.submit "Reset Password", class: 'btn btn-primary btn-block' %>
       <%= link_to '<i class="fas fa-angle-left"></i> Back'.html_safe, '#', id: 'cancel_reset' %>
     <% end %>
     <br>
