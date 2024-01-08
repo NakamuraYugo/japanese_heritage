@@ -13,4 +13,5 @@ Rails.application.routes.draw do
   end
 
   resources :user_informations, only: [:show]
+  resources :spots
 end
