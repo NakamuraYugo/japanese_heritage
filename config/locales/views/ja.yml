@@ -1,0 +1,30 @@
+ja:
+  defaults:
+    login: 'ログイン'
+    register: '登録'
+    logout: 'ログアウト'
+    register: '登録'
+    create: '登録する'
+    post: '投稿'
+    edit: '編集'
+    update: '更新'
+    show: '詳細'
+    delete: '削除'
+    unspecified: ' 指定なし'
+    password_reset: 'パスワードリセット'
+    message:
+      require_login: 'ログインしてください'
+      created: "%{item}を作成しました"
+      not_created: "%{item}を作成できませんでした"
+      updated: "%{item}を更新しました"
+      not_updated: "%{item}を更新できませんでした"
+      deleted: "%{item}を削除しました"
+      delete_confirm: '削除しますか？'
+      not_authorized: '権限がありません'
+      bookmark: 'ブックマークできました'
+      unbookmark: 'ブックマークできませんでした'
+    search_word: '検索'
+  spot:
+    new:
+      title: 'スポット登録'
+      
