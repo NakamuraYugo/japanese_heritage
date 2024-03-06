@@ -1,22 +1,17 @@
-<%= form_with model: spot, local: true do |f|  %>
+<%= form_with model: spot, url: confirm_spots_path, local: true do |f|  %>
   <%= render 'shared/error_messages', resource: f.object %>
 
-  <%= f.label :name, "スポットネーム" %>
+  <%= f.label :name, "スポットネーム", class: "spot_badge" %>
   <%= f.text_field :name, class: "form-control" %>
 
-  <%= f.label :introduction, "スポット紹介" %>
-  <%= f.text_area :introduction, class: "form-control" %>
+  <%= f.label :description, "スポット詳細", class: "spot_badge" %>
+  <%= f.text_area :description, class: "form-control" %>
 
-  <%= f.label :spot_image, "スポット画像" %>
-  <%= f.file_field :spot_image, onchange: 'previewImage(event)', class: "form-control" %>
-  <%= f.hidden_field :spot_image_cache %>
+  <%= f.label :spot_images, "スポット画像", class: "spot_badge" %>
+  <%= f.file_field :spot_images, multiple: true, name: "spot[spot_images][]", onchange: 'previewImages(event)', class: "form-control" %>
+  <%= f.hidden_field :spot_images_cache %>
 
-  <div class="mt-3 mb-3">
-    <% if spot.spot_image.present? %>
-      <%= image_tag spot.spot_image.url, id: 'preview', size: '300x200' %>
-    <% else %>
-      <%= image_pack_tag 'media/images/default_image.png', id: 'preview', size: '300x200' %>
-    <% end %>
-  </div>
-  <%= f.submit "投稿する", class: "btn btn-primary" %>
+  <div id="images-preview" class="mt-3 mb-3"></div>
+
+  <%= f.submit "確認画面へ", class: "btn btn-primary" %>
 <% end %>
