@@ -1,0 +1,20 @@
+<div class="container">
+  <h1>入力内容の確認</h1>
+
+    <h3>スポットネーム</h3>
+    <p><%= @spot.name %></p>
+
+    <h3>スポットの詳細</h3>
+    <p><%= @spot.description %></p>
+
+    <h3>スポット画像</h3>
+    <% if @spot.spot_images.present? %>
+      <% @spot.spot_images.each do |image| %>
+        <%= image_tag image.url %>
+      <% end %>
+    <% end %>
+
+  <%=  form_with model: @spot, url: spots_path, method: :post, local: true do |f|%> 
+    <%= f.submit "投稿する", class: "btn btn-primary" %>
+  <% end %>
+</div>
