@@ -6,14 +6,23 @@ class SpotsController < ApplicationController
     @spot = Spot.new
   end
 
-  def create
+  def confirm
     @spot = current_user.spots.build(spot_params)
-
-    if @spot.save
-      redirect_to @spot, success: t('defaults.message.created', item: Spot.model_name.human)
+    
+    if @spot.valid?
+      session[:spot_params] = spot_params.to_h
+      redirect_to show_confirm_spots_path
     else
-      flash.now[:danger] = t('defaults.message.not_created', item: Spot.model_name.human)
+      flash.now[:danger] = t('defaults.message.invalid')
       render :new
+    end
+  end
+  
+  def show_confirm
+    if session[:spot_params].present?
+      @spot = current_user.spots.build(session[:spot_params])
+    else
+      redirect_to new_spot_path, alert: 'セッションがタイムアウトしました。もう一度入力してください。'
     end
   end
 
@@ -27,6 +36,6 @@ class SpotsController < ApplicationController
   private
 
   def spot_params
-    params.require(:spot).permit(:name, :intrduction, :spot_image)
+    params.require(:spot).permit(:name, :description, {spot_images: []}, :spot_images_cache)
   end
 end
