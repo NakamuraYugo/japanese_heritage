@@ -13,5 +13,10 @@ Rails.application.routes.draw do
   end
 
   resources :user_informations, only: [:show]
-  resources :spots
+  resources :spots do
+    collection do
+      post 'confirm' # フォームデータを送信するためのルート
+      get 'show_confirm' # 確認画面を表示するためのルート
+    end
+  end
 end
