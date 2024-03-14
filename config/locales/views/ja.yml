@@ -14,8 +14,8 @@ ja:
     password_reset: 'パスワードリセット'
     message:
       require_login: 'ログインしてください'
-      created: "%{item}を作成しました"
-      not_created: "%{item}を作成できませんでした"
+      created: "%{item}を投稿しました"
+      not_created: "%{item}を投稿できませんでした"
       updated: "%{item}を更新しました"
       not_updated: "%{item}を更新できませんでした"
       deleted: "%{item}を削除しました"
@@ -23,6 +23,7 @@ ja:
       not_authorized: '権限がありません'
       bookmark: 'ブックマークできました'
       unbookmark: 'ブックマークできませんでした'
+      invalid: 'もう一度入力してください'
     search_word: '検索'
   spot:
     new:
