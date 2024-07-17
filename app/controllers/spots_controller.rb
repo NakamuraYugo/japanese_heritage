@@ -4,6 +4,7 @@ class SpotsController < ApplicationController
 
   def new
     @spot = Spot.new
+    @spot.images.build
   end
 
   def confirm
@@ -36,6 +37,6 @@ class SpotsController < ApplicationController
   private
 
   def spot_params
-    params.require(:spot).permit(:name, :description, {spot_images: []}, :spot_images_cache)
+    params.require(:spot).permit(:name, :description, images_attributes: [:id, :name, :name_cache, :_destroy])
   end
 end
