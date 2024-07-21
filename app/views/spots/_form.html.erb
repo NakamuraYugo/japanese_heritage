@@ -7,11 +7,29 @@
   <%= f.label :description, "スポット詳細", class: "spot_badge" %>
   <%= f.text_area :description, class: "form-control" %>
 
-  <%= f.label :spot_images, "スポット画像", class: "spot_badge" %>
-  <%= f.file_field :spot_images, multiple: true, name: "spot[spot_images][]", onchange: 'previewImages(event)', class: "form-control" %>
-  <%= f.hidden_field :spot_images_cache %>
-
-  <div id="images-preview" class="mt-3 mb-3"></div>
+  <div class="form-image">
+    <div class="form-image__title">
+      <label for="image-upload", class="spot_badge">スポット画像</label>
+      <div class="form-image__text">最大10枚までアップロードできます</div>
+      <%= f.fields_for :images do |f_img| %>
+        <div class="clearfix">
+          <ul id="previews">
+            <li class="input">
+              <label class="upload-label" for="image-upload">
+                <div class="upload-label__text">
+                  ドラッグアンドドロップ<br>または<br>クリックしてファイルをアップロード
+                </div>
+                <div class="input-area">
+                  <%= f_img.file_field :name, class: "hidden image_upload", id: "image-upload" %>
+                  <%= f_img.hidden_field :name_cache %>
+                </div>
+              </label>
+            </li>
+          </ul>
+        </div>
+      <% end %>
+    </div>
+  </div>
 
   <%= f.submit "確認画面へ", class: "btn btn-primary" %>
 <% end %>
