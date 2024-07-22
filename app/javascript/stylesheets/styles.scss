@@ -2859,6 +2859,7 @@ textarea.form-control-lg {
   --bs-btn-disabled-color: #fff;
   --bs-btn-disabled-bg: #ffc800;
   --bs-btn-disabled-border-color: #ffc800;
+  margin-top: 10px;
 }
 
 .btn-secondary {
@@ -4610,6 +4611,12 @@ textarea.form-control-lg {
   vertical-align: baseline;
   border-radius: var(--bs-badge-border-radius);
 }
+
+.spot_badge .badge{
+  background-color: #ff0000;
+  color: #fff;
+}
+
 .badge:empty {
   display: none;
 }
