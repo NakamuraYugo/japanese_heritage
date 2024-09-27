@@ -1,11 +1,11 @@
-<%= form_with model: spot, url: confirm_spots_path, local: true do |f|  %>
+<%= form_with model: spot, local: true, multipart: true,  html: { id: "spot-form", novalidate: true } do |f| %>
   <%= render 'shared/error_messages', resource: f.object %>
 
   <%= f.label :name, "スポットネーム", class: "spot_badge" %>
-  <%= f.text_field :name, class: "form-control" %>
+  <%= f.text_field :name, class: "form-control", required: true, maxlength: 255 %>
 
-  <%= f.label :description, "スポット詳細", class: "spot_badge" %>
-  <%= f.text_area :description, class: "form-control" %>
+  <%= f.label :description, "スポット紹介", class: "spot_badge" %>
+  <%= f.text_area :description, class: "form-control", required: true, maxlength: 65_535 %>
 
   <div class="form-image">
     <div class="form-image__title">
@@ -31,5 +31,5 @@
     </div>
   </div>
 
-  <%= f.submit "確認画面へ", class: "btn btn-primary" %>
+  <%= f.submit "投稿する", class: "btn btn-primary" %>
 <% end %>
