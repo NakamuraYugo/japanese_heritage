@@ -24,6 +24,7 @@ ja:
       bookmark: 'ブックマークできました'
       unbookmark: 'ブックマークできませんでした'
       invalid: 'もう一度入力してください'
+      spot_success: 'スポットが投稿されました'
     search_word: '検索'
   spot:
     new:
