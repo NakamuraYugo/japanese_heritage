@@ -1,2 +1,32 @@
-<h1>Spots#show</h1>
-<p>Find me in app/views/spots/show.html.erb</p>
+<div class="container-fiuld"> 
+  <div class="row">
+      <div class="col-md-12">
+          <div class="spot-view-box">
+              <div class="update-content">
+                  <div class="row">
+                      <label class="col-md-3" for="name">スポット名</label>
+                      <div class="col-md-9">
+                        <%= link_to @spot.name %>
+                      </div>
+                  </div>
+              </div>
+              <div class="update-content">
+                  <div class="row">
+                      <label class="col-md-3" for="start_date">スポット詳細</label>
+                      <div class="col-md-9"><%= @spot.description %></div>
+                  </div>
+              </div>
+              <div class="update-content">
+                  <div class="row">
+                      <label class="col-md-3" for="end_date">スポット画像</label>
+                      <div class="col-md-9">
+                        <%= @spot.images.each do  |image| %>
+                          <%= image_tag image.name.url %>
+                        <% end %>
+                      </div>
+                  </div>
+          </div>
+      </div>
+  </div>
+</div>
+
