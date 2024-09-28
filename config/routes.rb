@@ -7,16 +7,11 @@ Rails.application.routes.draw do
   }
 
   devise_scope :user do
-    get "signup", :to => "users/registrations#new"
-    get "login", :to => "users/sessions#new"
-    get "logout", :to => "users/sessions#destroy"
+    get "signup", to: "users/registrations#new"
+    get "login", to: "users/sessions#new"
+    get "logout", to: "users/sessions#destroy"
   end
 
   resources :user_informations, only: [:show]
-  resources :spots do
-    collection do
-      post 'confirm' # フォームデータを送信するためのルート
-      get 'show_confirm' # 確認画面を表示するためのルート
-    end
-  end
+  resources :spots, only: [:new, :create, :index, :show, :edit]
 end
