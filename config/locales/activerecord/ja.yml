@@ -3,15 +3,17 @@ ja:
     models:
       user: 'ユーザー'
       spot: 'スポット'
+      image: '画像'
     attributes:
       user:
         name: '名前'
         email: 'メールアドレス'
         encrypted_password: 'パスワード'
-      sopt :
+      spot:
         name: 'スポットネーム'
-        inroduction: 'スポット紹介'
-        image: 'スポット画像'
+        description: 'スポット紹介'
+      image:
+        name: '画像'
 
   attributes:
     created_at: '作成日'
