@@ -19,7 +19,7 @@ export function handleFiles(files, $li, $label) {
             ドラッグアンドドロップ<br>またはクリックしてファイルをアップロード
           </div>
           <div class="input-area">
-            <input class="hidden image_upload" type="file" name="spot[images_attributes][][name]">
+            <input class="hidden image_upload" type="file" name="spot[images_attributes][${index}][name]">
           </div>
         </label>
       </li>
