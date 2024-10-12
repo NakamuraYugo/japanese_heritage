@@ -25,3 +25,5 @@ import './spot_images.js';
 import './spot_preview_delete.js';
 import './handle_files.js';
 import './spot_drag.js';
+import './spot_form_submission.js';
+import './image_validation.js';
