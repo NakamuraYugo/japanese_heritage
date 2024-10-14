@@ -1,0 +1,35 @@
+<%= form_with model: spot, local: true, multipart: true,  html: { id: "spot-form", novalidate: true } do |f| %>
+  <%= render 'shared/error_messages', resource: f.object %>
+
+  <%= f.label :name, "スポットネーム", class: "spot_badge" %>
+  <%= f.text_field :name, class: "form-control", required: true, maxlength: 255 %>
+
+  <%= f.label :description, "スポット紹介", class: "spot_badge" %>
+  <%= f.text_area :description, class: "form-control", required: true, maxlength: 65_535 %>
+
+  <div class="form-image">
+    <div class="form-image__title">
+      <label for="image-upload", class="spot_badge">スポット画像</label>
+      <div class="form-image__text">最大10枚までアップロードできます</div>
+      <%= f.fields_for :images do |f_img| %>
+        <div class="clearfix">
+          <ul id="previews">
+            <li class="input">
+              <label class="upload-label" for="image-upload">
+                <div class="upload-label__text">
+                  ドラッグアンドドロップ<br>または<br>クリックしてファイルをアップロード
+                </div>
+                <div class="input-area">
+                  <%= f_img.file_field :name, class: "hidden image_upload", id: "image-upload" %>
+                  <%= f_img.hidden_field :name_cache %>
+                </div>
+              </label>
+            </li>
+          </ul>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <%= f.submit "投稿する", class: "btn btn-primary" %>
+<% end %>

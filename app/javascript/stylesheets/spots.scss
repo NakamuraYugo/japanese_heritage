@@ -1,0 +1,22 @@
+// Place all the styles related to the Spots controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+
+
+.spot_badge::after{
+  content: "必須";
+  color: #fff;
+  background-color: #ff1100;
+  font-size: 12px;
+  border-radius: 5px;
+  padding: 4px;
+  margin: 0 5px;
+}
+
+.img-preview {
+  max-width: 28%; /* プレビュー画像の最大幅 */
+  max-height: 30%; /* プレビュー画像の最大高さ */
+  margin-right: 10px; /* 画像間の余白 */
+  margin-bottom: 10px; /* 画像間の余白 */
+  object-fit: cover;
+}

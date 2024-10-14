@@ -1,9 +1,20 @@
 ja:
   activerecord:
     models:
-      user: ユーザー
+      user: 'ユーザー'
+      spot: 'スポット'
+      image: '画像'
     attributes:
       user:
-        name: 名前
-        email: メールアドレス
-        encrypted_password: パスワード
+        name: '名前'
+        email: 'メールアドレス'
+        encrypted_password: 'パスワード'
+      spot:
+        name: 'スポットネーム'
+        description: 'スポット紹介'
+      image:
+        name: '画像'
+
+  attributes:
+    created_at: '作成日'
+    updated_at: '更新日'
