@@ -10880,7 +10880,7 @@ p {
 #mainNav {
   padding-top: 1rem;
   padding-bottom: 1rem;
-  /* background-color: #212529; */
+  background-color: #8EB8FF;
 }
 #mainNav .navbar-toggler {
   padding: 0.75rem;
@@ -11320,4 +11320,8 @@ section#contact form#contactForm :-ms-input-placeholder {
 
 .container {
   margin-top: 120px;
+}
+
+.navbar {
+  position: relative;
 }
