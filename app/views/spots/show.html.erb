@@ -1,32 +1,29 @@
-<div class="container-fiuld"> 
-  <div class="row">
-      <div class="col-md-12">
-          <div class="spot-view-box">
-              <div class="update-content">
-                  <div class="row">
-                      <label class="col-md-3" for="name">スポット名</label>
-                      <div class="col-md-9">
-                        <%= link_to @spot.name %>
-                      </div>
-                  </div>
+<div class="container">
+  <div class="spot-details">
+    <div class="spot-detail-section">
+      <h2 class="spot-title"><%= @spot.name %></h2>
+    </div>
+
+    <div class="spot-detail-section">
+      <h3 class="section-title">スポット詳細</h3>
+      <p class="spot-description"><%= @spot.description %></p>
+    </div>
+
+    <div class="spot-detail-section">
+      <h3 class="section-title">スポット画像</h3>
+      <div class="spot-gallery">
+        <% @spot.images.each_slice(5) do |images| %>
+          <div class="gallery-row">
+            <% images.each do |image| %>
+              <div class="gallery-item">
+                <a href="<%= image.name.url %>" data-lightbox="spot-images" data-title="<%= image.description %>">
+                  <%= image_tag image.name.url, class: 'spot-image' %>
+                </a>
               </div>
-              <div class="update-content">
-                  <div class="row">
-                      <label class="col-md-3" for="start_date">スポット詳細</label>
-                      <div class="col-md-9"><%= @spot.description %></div>
-                  </div>
-              </div>
-              <div class="update-content">
-                  <div class="row">
-                      <label class="col-md-3" for="end_date">スポット画像</label>
-                      <div class="col-md-9">
-                        <%= @spot.images.each do  |image| %>
-                          <%= image_tag image.name.url %>
-                        <% end %>
-                      </div>
-                  </div>
+            <% end %>
           </div>
+        <% end %>
       </div>
+    </div>
   </div>
 </div>
-
