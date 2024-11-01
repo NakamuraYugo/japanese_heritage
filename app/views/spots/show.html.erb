@@ -16,7 +16,7 @@
           <div class="gallery-row">
             <% images.each do |image| %>
               <div class="gallery-item">
-                <a href="<%= image.name.url %>" data-lightbox="spot-images" data-title="<%= image.description %>">
+                <a href="<%= image.name.url %>" data-lightbox="spot-images">
                   <%= image_tag image.name.url, class: 'spot-image' %>
                 </a>
               </div>
