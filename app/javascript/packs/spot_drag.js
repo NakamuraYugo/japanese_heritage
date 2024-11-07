@@ -1,15 +1,10 @@
 import { handleFiles } from './handle_files';
 
 $(document).on('turbolinks:load', function() {
-  function handleDrop(event) {
-    event.preventDefault();
-    const files = event.originalEvent.dataTransfer.files;
-    if (files.length) {
-      handleFiles(files, $('#previews .input').first(), $('#previews .input').first().find('.upload-label'));
-    }
-  }
-
   const dropArea = $('#previews');
+
+  // ドラッグ関連のイベントを解除して重複を防ぐ
+  dropArea.off('dragover dragleave drop');
 
   dropArea.on('dragover', function(event) {
     event.preventDefault();
@@ -23,5 +18,11 @@ $(document).on('turbolinks:load', function() {
     dropArea.removeClass('drag-over');
   });
 
-  dropArea.on('drop', handleDrop);
+  dropArea.on('drop', function(event) {
+    event.preventDefault();
+    const files = event.originalEvent.dataTransfer.files;
+    if (files.length) {
+      handleFiles(files, $('#previews .input').first(), $('#previews .input').first().find('.upload-label'));
+    }
+  });
 });
