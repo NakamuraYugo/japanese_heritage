@@ -8,7 +8,11 @@ $(document).on('turbolinks:load', function() {
     const $submitButton = $spotForm.find('input[type="submit"]');
     
     if ($submitButton.length) {
-      $submitButton.on('click', function(event) {
+      // 既存の 'click' イベントを解除して重複を防ぐ
+      $submitButton.off('click.formSubmissionNamespace');
+
+      // 新たに 'click' イベントをバインド
+      $submitButton.on('click.formSubmissionNamespace', function(event) {
         event.preventDefault(); // フォーム送信をキャンセル
 
         // 1. 画像のバリデーション
