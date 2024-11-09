@@ -5,5 +5,9 @@ $(document).on('turbolinks:load', function() {
     handleFiles(e.target.files, $(this).closest('li'), $(this).closest('.upload-label'));
   }
 
-  $(document).on('change', '.image_upload', handleImageChange);
+  // 既存の 'change' イベントを解除して重複を防ぐ
+  $(document).off('change.imageUploadNamespace', '.image_upload');
+
+  // 新たに 'change' イベントをバインド
+  $(document).on('change.imageUploadNamespace', '.image_upload', handleImageChange);
 });

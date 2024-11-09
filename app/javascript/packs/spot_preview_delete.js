@@ -1,5 +1,9 @@
 $(document).on('turbolinks:load', function() {
-  $(document).on('click', '.image-preview__btn_delete', function() {
+  // 既存の 'click' イベントを解除して重複を防ぐ
+  $(document).off('click.imagePreviewNamespace', '.image-preview__btn_delete');
+
+  // 新たに 'click' イベントをバインド
+  $(document).on('click.imagePreviewNamespace', '.image-preview__btn_delete', function() {
     const append_input = $(`
       <li class="input">
         <label class="upload-label">
