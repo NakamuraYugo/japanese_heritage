@@ -24,7 +24,20 @@ class SpotsController < ApplicationController
   end
 
   def edit
+    @spot = current_user.spots.find(spot_params)
   end
+
+  def update
+    @spot = current_user.spots.build(spot_params)
+    if @spot.update(spot_params)
+      flash[:notice] = t('defaults.message.spot_update')
+      redirect_to @spot
+    else
+      flash.now[:danger] = t('defaults.message.invalid')
+      render :edit
+    end
+  end
+
 
   private
 
