@@ -1,45 +1,33 @@
+import { buildNewInputLi } from './handle_files';
+
 $(document).on('turbolinks:load', function() {
-  // 既存の 'click' イベントを解除して重複を防ぐ
-  $(document).off('click.imagePreviewNamespace', '.image-preview__btn_delete');
-
-  // 新たに 'click' イベントをバインド
-  $(document).on('click.imagePreviewNamespace', '.image-preview__btn_delete', function() {
-    const append_input = $(`
-      <li class="input">
-        <label class="upload-label">
-          <div class="upload-label__text">
-            ドラッグアンドドロップ<br>またはクリックしてファイルをアップロード
-            <div class="input-area">
-              <input class="hidden image_upload" type="file">
-            </div>
-          </div>
-        </label>
-      </li>
-    `);
-
+  $(document).on('click', '.image-preview__btn_delete', function() {
     const $ul = $('#previews');
     const $li = $(this).closest('.image-preview');
 
-    $li.remove();
+    // 既存 or 新規 を判定
+    const fileType = $li.data('file-type');
+    if (fileType === 'existing') {
+      // 既存画像（DB保存済み）の場合: _destroy=true をONにして削除
+      $li.find('.hidden-destroy-field').prop('checked', true);
+      // DOMは残すが表示だけ消す
+      $li.hide();
+    } else {
+      // 新規（まだDBにない）場合は DOM ごと削除
+      $li.remove();
+    }
 
-    const $lis = $ul.find('.image-preview');
-    if ($lis.length <= 4) {
-      $('#previews li:last-child').css({
-        'width': `calc(100% - (20% * ${$lis.length}))`
-      });
-    } else if ($lis.length == 5) {
-      $('#previews li:last-child').css({
-        'width': `100%`
-      });
-    } else if ($lis.length < 9) {
-      $('#previews li:last-child').css({
-        'width': `calc(100% - (20% * (${$lis.length} - 5)))`
-      });
-    } else if ($lis.length == 9) {
-      $ul.append(append_input);
-      $('#previews li:last-child').css({
-        'width': `calc(100% - (20% * (${$lis.length} - 5)))`
-      });
+    // 残っている「表示中の画像数」を数える
+    const visibleCount = $ul.find('.image-preview:visible').length;
+    if (visibleCount < 10) {
+      // input が無ければ1つ追加
+      if ($ul.find('li.input').length === 0) {
+        // buildNewInputLi() を呼んで統一した構造を追加する
+        $ul.append(buildNewInputLi());
+      }
+    } else {
+      // 10枚以上なら input を削除
+      $ul.find('li.input').remove();
     }
   });
 });
