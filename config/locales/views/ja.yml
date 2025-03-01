@@ -25,6 +25,8 @@ ja:
       unbookmark: 'ブックマークできませんでした'
       invalid: 'もう一度入力してください'
       spot_success: 'スポットが投稿されました'
+      spot_update: 'スポットが更新されました'
+      spot_not_owner: '編集権限がありません'
     search_word: '検索'
   spot:
     new:
