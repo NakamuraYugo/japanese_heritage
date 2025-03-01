@@ -7,6 +7,17 @@ ja:
           has_one: "%{record}が存在しているので削除できません"
           has_many: "%{record}が存在しているので削除できません"
       models:
+        spot:
+          attributes:
+            name:
+              blank: "スポット名を入力してください"
+              too_long: "スポット名は%{count}文字以内で入力してください"
+            description:
+              blank: "スポットの説明を入力してください"
+              too_long: "スポットの説明は%{count}文字以内で入力してください"
+            images:
+              blank: "は1枚以上アップロードしてください"
+              too_many: "は10枚までです"
         image:
           attributes:
             name:
