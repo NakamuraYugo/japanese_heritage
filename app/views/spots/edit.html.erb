@@ -1,2 +1,8 @@
-<h1>Spots#edit</h1>
-<p>Find me in app/views/spots/edit.html.erb</p>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 offset-lg-2">
+      <h1><%= t('.edit_title') %></h1>
+      <%= render 'form', { spot: @spot } %>
+    </div>
+  </div>
+</div>

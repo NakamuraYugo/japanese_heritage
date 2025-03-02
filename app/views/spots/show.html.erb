@@ -24,6 +24,9 @@
           </div>
         <% end %>
       </div>
+    <% if current_user == @spot.user %>
+      <%= link_to '編集する', edit_spot_path(@spot), class: 'btn btn-primary' %>
+    <% end %>
     </div>
   </div>
 </div>
