@@ -1,3 +1,30 @@
-<% flash.each do |message_type, message| %>
-  <div class="alert alert-<%= message_type %>"><%= message %></div>
+<% if flash.present? %>
+  <script>
+    function getIconByType(type) {
+      switch(type) {
+        case 'success':
+        case 'notice':
+          return 'success';
+        case 'danger':
+        case 'alert':
+          return 'error';
+        default:
+          return 'info';
+      }
+    }
+
+    $(document).on('turbolinks:load', function() {
+      <% flash.each do |message_type, message| %>
+        Swal.fire({
+          icon: getIconByType("<%= message_type %>"),
+          title: "<%= j message %>",
+          toast: true,
+          position: 'top',
+          showConfirmButton: false,
+          timer: 5000
+        });
+      <% end %>
+    });
+  </script>
 <% end %>
+
