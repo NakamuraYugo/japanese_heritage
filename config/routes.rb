@@ -13,5 +13,5 @@ Rails.application.routes.draw do
   end
 
   resources :user_informations, only: [:show]
-  resources :spots, only: [:new, :create, :index, :show, :edit, :update]
+  resources :spots, only: [:new, :create, :index, :show, :edit, :update, :destroy]
 end
