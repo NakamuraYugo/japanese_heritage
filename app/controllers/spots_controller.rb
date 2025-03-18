@@ -1,8 +1,8 @@
 class SpotsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
 
-  before_action :set_spot, only: [:show, :edit, :update]
-  before_action :require_owner!, only: [:edit, :update]
+  before_action :set_spot, only: [:show, :edit, :update, :destroy]
+  before_action :require_owner!, only: [:edit, :update, :destroy]
 
   def index
     @spots = Spot.all
@@ -40,6 +40,15 @@ class SpotsController < ApplicationController
     end
   end
 
+  def destroy
+    if @spot.destroy
+      flash[:notice] = t('defaults.message.spot_destroy')
+      redirect_to root_path
+    else
+      flash[:alert] = t('defaults.message.spot_not_destroy')
+      redirect_to spot_path
+    end
+  end
 
   private
 
