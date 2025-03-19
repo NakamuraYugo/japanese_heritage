@@ -1,6 +1,5 @@
 class SpotsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-
   before_action :set_spot, only: [:show, :edit, :update, :destroy]
   before_action :require_owner!, only: [:edit, :update, :destroy]
 
@@ -42,11 +41,10 @@ class SpotsController < ApplicationController
 
   def destroy
     if @spot.destroy
-      flash[:notice] = t('defaults.message.spot_destroy')
-      redirect_to root_path
+      # Ajax想定ならflashやリダイレクトではなく、JSONレスポンスなどにする
+      render json: { message: 'Spot was successfully destroyed.' }, status: :ok
     else
-      flash[:alert] = t('defaults.message.spot_not_destroy')
-      redirect_to spot_path
+      render json: { error: 'Failed to destroy.' }, status: :unprocessable_entity
     end
   end
 
