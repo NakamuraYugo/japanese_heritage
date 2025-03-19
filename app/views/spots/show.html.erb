@@ -26,6 +26,7 @@
       </div>
     <% if current_user == @spot.user %>
       <%= link_to '編集する', edit_spot_path(@spot), class: 'btn btn-primary' %>
+      <%= link_to '削除する', spot_path(@spot), class: 'btn btn-danger sweet-delete' %>
     <% end %>
     </div>
   </div>
