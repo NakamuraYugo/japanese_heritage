@@ -30,6 +30,7 @@ import './handle_files.js';
 import './spot_drag.js';
 import './spot_form_submission.js';
 import './image_validation.js';
+import './spot_delete.js';
 import 'lightbox2';
 import 'lightbox2/dist/css/lightbox.css';
 import 'lightbox2/dist/js/lightbox.min.js';

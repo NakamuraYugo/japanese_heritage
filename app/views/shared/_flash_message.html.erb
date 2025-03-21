@@ -13,7 +13,7 @@
       }
     }
 
-    $(document).on('turbolinks:load', function() {
+    function showFlashMessages() {
       <% flash.each do |message_type, message| %>
         Swal.fire({
           icon: getIconByType("<%= message_type %>"),
@@ -24,7 +24,10 @@
           timer: 5000
         });
       <% end %>
-    });
+    }
+
+    document.addEventListener('DOMContentLoaded', showFlashMessages);
+
+    document.addEventListener('turbolinks:load', showFlashMessages);
   </script>
 <% end %>
-
