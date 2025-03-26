@@ -16,8 +16,8 @@ ja:
               blank: "スポットの説明を入力してください"
               too_long: "スポットの説明は%{count}文字以内で入力してください"
             images:
-              blank: "は1枚以上アップロードしてください"
-              too_many: "は10枚までです"
+              blank: "画像は1枚以上アップロードしてください"
+              too_many: "画像は10枚までです"
         image:
           attributes:
             name:
