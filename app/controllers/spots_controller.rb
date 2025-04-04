@@ -4,7 +4,7 @@ class SpotsController < ApplicationController
   before_action :require_owner!, only: [:edit, :update, :destroy]
 
   def index
-    @spots = Spot.all
+    @spots = Spot.page(params[:page]).per(20)
   end
 
   def new
