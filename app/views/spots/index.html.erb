@@ -23,7 +23,7 @@
         <p>
           <%= truncated_desc %>
           <% if spot.description.length > 50 %>
-            <%= link_to ' (続きを読む)', spot_path(spot), class: 'read-more-link' %>
+            <%= link_to t('links.read_more'), spot_path(spot), class: 'read-more-link' %>
           <% end %>
         </p>
       </div>
@@ -31,6 +31,7 @@
   <% end %>
 </div>
 
-<div class="pagination-wrapper">
+<div class="d-flex justify-content-center my-3">
   <%= paginate @spots %>
 </div>
+
