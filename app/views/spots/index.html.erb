@@ -1,3 +1,8 @@
+<div class="text-center mb-4">
+  <h1><i class="fas fa-list"></i> スポット一覧</h1>
+  <p>ここでは投稿されたスポットが一覧で確認できます</p>
+  <p>全<%= @spots.total_count %>件のスポットが登録されています</p>
+</div>
 <div class="spots-index-container">
   <% @spots.each do |spot| %>
     <div class="spot-card">
