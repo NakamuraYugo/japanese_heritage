@@ -1,4 +1,13 @@
 ja:
+  views:
+    pagination:
+      first: "最初"
+      previous: "前へ"
+      next: "次へ"
+      last: "最後"
+      truncate: "..."
+  links:
+    read_more: "(続きを読む)"
   activerecord:
     errors:
       messages:
