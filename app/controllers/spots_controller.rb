@@ -4,7 +4,11 @@ class SpotsController < ApplicationController
   before_action :require_owner!, only: [:edit, :update, :destroy]
 
   def index
-    @spots = Spot.includes(:images).page(params[:page]).per(20)
+    @q = Spot.ransack(params[:q])
+    @spots = @q.result(distinct: true)
+             .includes(:images)
+             .page(params[:page])
+             .per(20)
   end
 
   def new
