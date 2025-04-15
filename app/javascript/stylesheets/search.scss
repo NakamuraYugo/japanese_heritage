@@ -1,0 +1,34 @@
+.search-form {
+  margin: 2rem 0;           
+  display: flex;           
+  justify-content: center; 
+}
+
+.search-box {
+  position: relative;
+  width: 500px;    
+  max-width: 80%;  
+}
+
+.search-input {
+  width: 100%;
+  padding-right: 3rem; 
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  right: 0.75rem; 
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+
+  i {
+    color: #333;
+  }
+  
+  &:hover i {
+    color: #666;
+  }
+}
