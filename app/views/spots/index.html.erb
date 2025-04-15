@@ -3,6 +3,18 @@
   <p>ここでは投稿されたスポットが一覧で確認できます</p>
   <p>全<%= @spots.total_count %>件のスポットが登録されています</p>
 </div>
+
+<%= search_form_for @q, url: spots_path, method: :get, html: { class: "search-form" } do |f| %>
+  <div class="search-box">
+    <%= f.text_field :name_or_description_cont,
+      placeholder: "検索ワードを入力",
+      class: "search-input" %>
+    <button type="submit" class="search-icon">
+      <i class="fas fa-search"></i>
+    </button>
+  </div>
+<% end %>
+
 <div class="spots-index-container">
   <% @spots.each do |spot| %>
     <div class="spot-card">
