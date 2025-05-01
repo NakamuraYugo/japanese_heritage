@@ -45,11 +45,17 @@ class SpotsController < ApplicationController
 
   def destroy
     if @spot.destroy
-      # Ajax想定ならflashやリダイレクトではなく、JSONレスポンスなどにする
       render json: { message: 'Spot was successfully destroyed.' }, status: :ok
     else
       render json: { error: 'Failed to destroy.' }, status: :unprocessable_entity
     end
+  end
+
+  def destroy_multiple
+    ids = params[:spot_ids] || []
+    current_user.spots.where(id: ids).destroy_all
+    redirect_to user_information_path(current_user),
+                notice: t('defaults.message.spots_destroyed')
   end
 
   private
