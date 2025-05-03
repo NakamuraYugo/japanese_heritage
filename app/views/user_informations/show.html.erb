@@ -1,27 +1,56 @@
-<div class="col-md-10 user-view">
+<div class="col-md-10 user-view page-my">
   <div class="user-view-box">
-    <div class="update-content">
-      <div class="row">
-        <h5>アカウント</h5>
+    <section class="profile-section mb-5">
+      <h3 class="section-title mb-4">マイページ</h3>
+
+      <div class="profile-table">
+        <div class="profile-label">名前</div>
+        <div class="profile-value"><%= @user.name %></div>
+
+        <div class="profile-label">メールアドレス</div>
+        <div class="profile-value"><%= @user.email %></div>
       </div>
-    </div>
-    <div class="update-content">
-      <div class="row">
-        <label class="col-md-3" for="name">名前</label>
-        <div class="mb-4 col-md-9"><%= @user.name %></div>
+
+      <div class="text-end mt-3">
+        <%= link_to '編集',
+                    edit_user_registration_path(@user),
+                    class: 'btn btn-primary px-4' %>
       </div>
-    </div>
-    <div class="update-content">
-      <div class="row">
-        <label class="col-md-3" for="email">メールアドレス</label>
-        <div class="col-md-9"><%= @user.email %></div>
+    </section>
+
+    <section class="spots-section">
+      <h4 class="section-title mb-3">登録スポット</h4>
+
+      <%= form_with url: destroy_multiple_spots_path,
+                    method: :delete,
+                    local: true,
+                    id: 'delete-spots-form' do |f| %>
+
+        <div class="my-spots-container">
+          <% @spots.each do |spot| %>
+            <div class="spot-with-check">
+              <%= render partial: 'spots/spot_card',
+                        locals: { spot: spot, size: :sm } %>
+
+              <div class="form-check mt-1">
+                <% check_id = "spot_#{spot.id}" %>
+                <%= check_box_tag 'spot_ids[]', spot.id, false,
+                                  id: check_id,
+                                  class: 'form-check-input' %>
+                <label for="<%= check_id %>" class="form-check-label">削除</label>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="d-flex justify-content-center my-4">
+          <%= f.submit '選択した投稿を削除', class: 'btn btn-danger px-4' %>
+        </div>
+      <% end %>
+
+      <div class="d-flex justify-content-center my-3">
+        <%= paginate @spots %>
       </div>
-    </div>
-    <div class="update-content">
-      <div class="row">
-        <!--<a class="col-md-2 btn btn-primary mx-3" href="/users/edit">編集</a> -->
-        <%= link_to '編集', edit_user_registration_path(@user.id), class: "btn btn-primary mx-3" %>
-      </div>
-    </div>
+    </section>
   </div>
 </div>
