@@ -5,3 +5,52 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+require 'faker'
+ActiveRecord::Base.logger = Logger.new(STDOUT)
+Faker::Config.locale = :ja
+
+specific_user = User.find_or_create_by!(email: 'hhh@sample.com') do |u|
+  u.name     = 'HHH'
+  u.password = 'hhhhhh'
+end
+
+15.times do
+  spot = specific_user.spots.build(
+    name:        Faker::Address.city + Faker::Lorem.characters(number: 4),
+    description: Faker::Lorem.paragraph(sentence_count: 3)
+  )
+
+  # 画像 1〜3 枚
+  rand(1..3).times do
+    path = Rails.root.join('db/fixtures/images', "sample#{rand(1..2)}.jpg")
+    File.open(path) { |f| spot.images.build(name: f) }
+  end
+
+  spot.save!
+end
+
+開発用ユーザー 10 人
+10.times do |n|
+  user = User.create!(
+    name:  "ユーザー#{n + 1}",
+    email: Faker::Internet.unique.email,
+    password: 'password'
+  )
+
+  rand(3..8).times do
+    spot = user.spots.build(
+      name:        Faker::Address.city + Faker::Lorem.characters(number: 4),
+      description: Faker::Lorem.paragraph(sentence_count: 4)
+    )
+
+    rand(1..4).times do
+      path = Rails.root.join('db/fixtures/images', "sample#{rand(1..2)}.jpg")
+      spot.images.build(name: File.open(path))
+    end
+
+    spot.save!
+  end
+
+  Faker::UniqueGenerator.clear
+end
