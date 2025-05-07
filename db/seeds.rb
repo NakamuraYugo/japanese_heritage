@@ -9,7 +9,7 @@
 require 'faker'
 ActiveRecord::Base.logger = Logger.new(STDOUT)
 Faker::Config.locale = :ja
-
+# 特定のユーザーを作成、そのユーザーのスポットを作成
 specific_user = User.find_or_create_by!(email: 'hhh@sample.com') do |u|
   u.name     = 'HHH'
   u.password = 'hhhhhh'
@@ -21,7 +21,6 @@ end
     description: Faker::Lorem.paragraph(sentence_count: 3)
   )
 
-  # 画像 1〜3 枚
   rand(1..3).times do
     path = Rails.root.join('db/fixtures/images', "sample#{rand(1..2)}.jpg")
     File.open(path) { |f| spot.images.build(name: f) }
@@ -30,7 +29,7 @@ end
   spot.save!
 end
 
-開発用ユーザー 10 人
+# 開発用ユーザー 10 人
 10.times do |n|
   user = User.create!(
     name:  "ユーザー#{n + 1}",
@@ -51,6 +50,6 @@ end
 
     spot.save!
   end
-
-  Faker::UniqueGenerator.clear
 end
+
+Faker::UniqueGenerator.clear
