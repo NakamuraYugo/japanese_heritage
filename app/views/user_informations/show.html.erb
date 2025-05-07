@@ -29,9 +29,7 @@
         <div class="my-spots-container">
           <% @spots.each do |spot| %>
             <div class="spot-with-check">
-              <%= render partial: 'spots/spot_card',
-                        locals: { spot: spot, size: :sm } %>
-
+              <%= render partial: 'spots/spot_card', locals: { spot: spot, size: :sm } %>
               <div class="form-check mt-1">
                 <% check_id = "spot_#{spot.id}" %>
                 <%= check_box_tag 'spot_ids[]', spot.id, false,
