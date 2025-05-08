@@ -19,8 +19,8 @@ class SpotsController < ApplicationController
   def create
     @spot = current_user.spots.build(spot_params)
     if @spot.save
-      flash[:success] = t('defaults.message.spot_success')
-      redirect_to @spot
+      redirect_to @spot,
+                  notice: t('defaults.message.spot_success')
     else
       flash.now[:danger] = t('defaults.message.invalid')
       render :new
@@ -35,8 +35,8 @@ class SpotsController < ApplicationController
 
   def update
     if @spot.update(spot_params)
-      flash[:notice] = t('defaults.message.spot_update')
-      redirect_to @spot
+      redirect_to @spot,
+                  notice: t('defaults.message.spot_update')
     else
       flash.now[:danger] = t('defaults.message.invalid')
       render :edit
@@ -45,11 +45,16 @@ class SpotsController < ApplicationController
 
   def destroy
     if @spot.destroy
-      # Ajax想定ならflashやリダイレクトではなく、JSONレスポンスなどにする
       render json: { message: 'Spot was successfully destroyed.' }, status: :ok
     else
       render json: { error: 'Failed to destroy.' }, status: :unprocessable_entity
     end
+  end
+
+  def destroy_multiple
+    current_user.spots.where(id: params[:spot_ids]).destroy_all
+    redirect_to user_information_path(current_user),
+                notice: t('defaults.message.spots_deleted')
   end
 
   private
@@ -59,10 +64,9 @@ class SpotsController < ApplicationController
   end
 
   def require_owner!
-    unless @spot.user_id == current_user.id
-      flash[:alert] = t('defaults.message.spot_not_owner')
-      redirect_to root_path
-    end
+    redirect_to root_path,
+                alert: t('defaults.message.spot_not_owner')
+      unless @spot.user_id == current_user.id
   end
 
   def spot_params
