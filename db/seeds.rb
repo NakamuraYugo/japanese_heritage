@@ -45,7 +45,7 @@ end
 
     rand(1..4).times do
       path = Rails.root.join('db/fixtures/images', "sample#{rand(1..2)}.jpg")
-      spot.images.build(name: File.open(path))
+      File.open(path) { |f| spot.images.build(name: f) }
     end
 
     spot.save!
