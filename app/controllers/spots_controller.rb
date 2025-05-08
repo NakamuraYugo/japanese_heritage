@@ -19,8 +19,8 @@ class SpotsController < ApplicationController
   def create
     @spot = current_user.spots.build(spot_params)
     if @spot.save
-      flash[:success] = t('defaults.message.spot_success')
-      redirect_to @spot
+      redirect_to @spot,
+                  notice: t('defaults.message.spot_success')
     else
       flash.now[:danger] = t('defaults.message.invalid')
       render :new
@@ -35,8 +35,8 @@ class SpotsController < ApplicationController
 
   def update
     if @spot.update(spot_params)
-      flash[:notice] = t('defaults.message.spot_update')
-      redirect_to @spot
+      redirect_to @spot,
+                  notice: t('defaults.message.spot_update')
     else
       flash.now[:danger] = t('defaults.message.invalid')
       render :edit
@@ -52,8 +52,7 @@ class SpotsController < ApplicationController
   end
 
   def destroy_multiple
-    ids = params[:spot_ids] || []
-    current_user.spots.where(id: ids).destroy_all
+    current_user.spots.where(id: params[:spot_ids]).destroy_all
     redirect_to user_information_path(current_user),
                 notice: t('defaults.message.spots_destroyed')
   end
@@ -65,10 +64,9 @@ class SpotsController < ApplicationController
   end
 
   def require_owner!
-    unless @spot.user_id == current_user.id
-      flash[:alert] = t('defaults.message.spot_not_owner')
-      redirect_to root_path
-    end
+    redirect_to root_path,
+                alert: t('defaults.message.spot_not_owner')
+      unless @spot.user_id == current_user.id
   end
 
   def spot_params
