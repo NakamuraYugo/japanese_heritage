@@ -54,7 +54,7 @@ class SpotsController < ApplicationController
   def destroy_multiple
     current_user.spots.where(id: params[:spot_ids]).destroy_all
     redirect_to user_information_path(current_user),
-                notice: t('defaults.message.spots_destroyed')
+                notice: t('defaults.message.spots_deleted')
   end
 
   private
