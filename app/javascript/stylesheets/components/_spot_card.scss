@@ -46,8 +46,12 @@
   &--sm {
     max-width: 240px;
 
-    &__image { height: 140px; }
-    &__body  { height: 150px; }
+    .spot-card__image {
+      height: 140px;
+    }
+    .spot-card__body {
+      height: 150px;
+    }
   }
 }
 
