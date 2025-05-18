@@ -27,6 +27,7 @@ ja:
       spot_success: 'スポットが投稿されました'
       spot_update: 'スポットが更新されました'
       spot_not_owner: '編集権限がありません'
+      no_spots_selected: "削除するスポットが選択されていません"
       spots_deleted: '選択したスポットが削除されました'
     search_word: '検索'
   spot:
