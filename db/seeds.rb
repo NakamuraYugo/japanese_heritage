@@ -7,6 +7,10 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 require 'faker'
+srand 1234
+Faker::Config.random = Random.new(1234)
+Faker::UniqueGenerator.clear
+
 ActiveRecord::Base.logger = Logger.new(STDOUT)
 Faker::Config.locale = :ja
 # 特定のユーザーを作成、そのユーザーのスポットを作成
@@ -48,7 +52,11 @@ end
       File.open(path) { |f| spot.images.build(name: f) }
     end
 
-    spot.save!
+    begin
+      spot.save!
+    rescue ActiveRecord::RecordInvalid => e
+      warn "⚠ Seed warning: could not save spot ##{spot.object_id}: #{e.record.errors.full_messages.join(", ")}"
+    end
   end
 end
 
