@@ -48,6 +48,11 @@ class SpotsController < ApplicationController
   end
 
   def destroy_multiple
+    unless params[:spot_ids].present?
+      return redirect_to user_information_path(current_user),
+                        alert: t('defaults.message.no_spots_selected')
+    end
+
     current_user.spots.where(id: params[:spot_ids]).destroy_all
     redirect_to user_information_path(current_user),
                 notice: t('defaults.message.spots_deleted')
