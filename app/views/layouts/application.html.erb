@@ -19,6 +19,12 @@
   </head>
 
   <body id="page-top">
+    <noscript>
+      <div class="alert alert-warning text-center" role="alert">
+        ⚠ JavaScript が無効になっています。<br>
+        このアプリの一部機能が動作しません。
+      </div>
+    </noscript>
     <% if user_signed_in? %>
         <%= render 'shared/header' %>
       <% else %>

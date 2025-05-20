@@ -16,39 +16,9 @@
 <% end %>
 
 <div class="spots-index-container">
-  <% @spots.each do |spot| %>
-    <div class="spot-card">
-      <div class="spot-card__image">
-        <% if spot.images.any? %>
-          <%= link_to spot_path(spot) do %>
-            <%= image_tag spot.images.first.name.url, alt: spot.name, class: "spot-card__img" %>
-          <% end %>
-        <% else %>
-          <%= link_to spot_path(spot) do %>
-            <div class="no-image">No Image</div>
-          <% end %>
-        <% end %>
-      </div>
-
-      <div class="spot-card__body">
-        <% truncated_name = truncate(spot.name, length: 20) %>
-        <h2>
-          <%= link_to truncated_name, spot_path(spot), class: "spot-card__link" %>
-        </h2>
-
-        <% truncated_desc = truncate(spot.description, length: 50, separator: ' ', omission: '…') %>
-        <p>
-          <%= truncated_desc %>
-          <% if spot.description.length > 50 %>
-            <%= link_to t('links.read_more'), spot_path(spot), class: 'read-more-link' %>
-          <% end %>
-        </p>
-      </div>
-    </div>
-  <% end %>
+  <%= render partial: 'spots/spot_card', collection: @spots, as: :spot %>
 </div>
 
 <div class="d-flex justify-content-center my-3">
   <%= paginate @spots %>
 </div>
-
