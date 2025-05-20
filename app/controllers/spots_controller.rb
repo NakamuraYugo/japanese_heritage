@@ -48,15 +48,25 @@ class SpotsController < ApplicationController
   end
 
   def destroy_multiple
-    unless params[:spot_ids].present?
-      return redirect_to user_information_path(current_user),
-                        alert: t('defaults.message.no_spots_selected')
+    ids = params[:spot_ids]
+    return redirect_to(user_information_path(current_user),
+                       alert: t('defaults.message.no_spots_selected'))
+      unless ids.present?
+
+    Spot.transaction do
+      current_user.spots.where(id: ids).each do |spot|
+        spot.destroy!
+      end
     end
 
-    current_user.spots.where(id: params[:spot_ids]).destroy_all
     redirect_to user_information_path(current_user),
                 notice: t('defaults.message.spots_deleted')
+
+  rescue ActiveRecord::RecordNotDestroyed => e
+    redirect_to user_information_path(current_user),
+                alert: t('defaults.message.spots_deleted_error')
   end
+  
 
   private
 
