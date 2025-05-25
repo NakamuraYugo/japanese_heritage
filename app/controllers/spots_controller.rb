@@ -50,7 +50,7 @@ class SpotsController < ApplicationController
   def destroy_multiple
     ids = params[:spot_ids]
     return redirect_to(user_information_path(current_user),
-                       alert: t('defaults.message.no_spots_selected'))
+                       alert: t('defaults.message.no_spots_selected'))\
       unless ids.present?
 
     Spot.transaction do
