@@ -9,6 +9,9 @@ class Spot < ApplicationRecord
   validate :must_have_image
   validate :images_count_within_limit
 
+  geocoded_by :address
+  after_validation :geocode, if: :will_save_change_to_address?
+
   private
 
   def must_have_image
