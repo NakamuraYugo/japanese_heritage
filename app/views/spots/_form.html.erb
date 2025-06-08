@@ -7,6 +7,17 @@
   <%= f.label :description, "スポット紹介", class: "spot_badge" %>
   <%= f.text_area :description, class: "form-control", required: true, maxlength: 65_535 %>
 
+  <%= f.label :address, "所在地（任意）", class: "spot_badge" %>
+  <small class="text-muted">
+    例：東京都渋谷区神南1-19-11（番地まで入力）
+    例：明治神宮（施設名のみ）
+    入力がなくてもスポット名を元に大まかな位置を探します
+  </small>
+  <%= f.text_field :address,
+        class:       "form-control",
+        placeholder: "番地まで入力すれば正確に、施設名や市区町村のみでも周辺位置を取得",
+        maxlength:   100 %>
+
   <div class="form-image">
     <div class="form-image__title">
       <label for="image-upload" class="spot_badge">スポット画像</label>
