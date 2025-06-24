@@ -9,10 +9,21 @@ class Spot < ApplicationRecord
   validate :must_have_image
   validate :images_count_within_limit
 
-  geocoded_by :address
-  after_validation :geocode, if: :will_save_change_to_address?
+  geocoded_by :lookup_address
+
+  after_validation :geocode, if: :should_geocode?
+
 
   private
+
+  def lookup_address
+    address.presence || name
+  end
+
+  def should_geocode?
+    (address_changed? && address.present?) ||
+      (address.blank? && name_changed? && name.present?)
+  end
 
   def must_have_image
     # 「_destroyフラグが付いていない画像が0枚ならエラー」
