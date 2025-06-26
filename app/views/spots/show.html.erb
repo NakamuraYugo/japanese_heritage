@@ -1,47 +1,37 @@
-<!-- app/views/spots/show.html.erb -->
-<div class="container">
-  <div class="spot-details">
-
-    <div class="spot-detail-section layout-two-col">
-      <!-- 左カラム：タイトル・詳細・ギャラリー -->
-      <div class="layout-two-col__info">
-        <h2 class="spot-title"><%= @spot.name %></h2>
-        <p class="spot-description"><%= @spot.description %></p>
-
-        <h3 class="section-title">スポット画像</h3>
-        <div class="spot-gallery">
-          <% @spot.images.each do |image| %>
-            <div class="gallery-item">
-              <a href="<%= image.name.url %>" data-lightbox="spot-images">
-                <%= image_tag image.name.url, class: "spot-image" %>
-              </a>
-            </div>
-          <% end %>
+<div class="spot-detail-section layout-two-col">
+  <!-- 左カラム：タイトル・詳細・ギャラリー -->
+  <div class="layout-two-col__info">
+    <h2 class="spot-title"><%= @spot.name %></h2>
+    <p class="spot-description"><%= @spot.description %></p>
+    <h3 class="section-title">スポット画像</h3>
+    <div class="spot-gallery">
+      <% @spot.images.each do |image| %>
+        <div class="gallery-item">
+          <%= image_tag image.name.url, class: 'spot-image' %>
         </div>
-
-        <% if current_user == @spot.user %>
-          <div class="management-buttons">
-            <%= link_to '編集する', edit_spot_path(@spot), class: 'btn btn-primary' %>
-            <%= link_to '削除する', spot_path(@spot), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger' %>
-          </div>
-        <% end %>
-      </div>
-
-      <!-- 右カラム：場所 -->
-      <div class="layout-two-col__map">
-        <h3 class="section-title">場所</h3>
-        <p class="spot-address"><%= @spot.address %></p>
-        <div class="map-container">
-          <div id="map"
-               data-lat="<%= @spot.latitude %>"
-               data-lng="<%= @spot.longitude %>"></div>
-        </div>
-      </div>
+      <% end %>
     </div>
+  </div>
 
-    <%= javascript_pack_tag 'spot_map' %>
-    <%= javascript_include_tag \
-        "https://maps.googleapis.com/maps/api/js?key=#{ENV['GOOGLE_MAPS_API_KEY']}&callback=initMap",
-        async: true, defer: true %>
+  <!-- 右カラム：マップ -->
+  <div class="layout-two-col__map">
+    <h3 class="section-title">場所</h3>
+    <p class="spot-address"><%= @spot.address %></p>
+    <div class="map-container">
+      <div id="map"
+           data-lat="<%= @spot.latitude %>"
+           data-lng="<%= @spot.longitude %>"></div>
+    </div>
   </div>
 </div>
+
+<% if current_user == @spot.user %>
+  <div class="management-buttons">
+    <%= link_to '編集する', edit_spot_path(@spot), class: 'btn btn-primary' %>
+    <%= link_to '削除する', spot_path(@spot), class: 'btn btn-danger sweet-delete' %>
+  </div>
+<% end %>
+
+<%= javascript_pack_tag 'spot_map' %>
+<%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=#{ENV['GOOGLE_MAPS_API_KEY']}&callback=initMap",
+      async: true, defer: true %>
