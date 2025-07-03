@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_06_11_045522) do
+ActiveRecord::Schema.define(version: 2025_05_29_171739) do
 
   create_table "images", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "spot_id", null: false
@@ -27,6 +27,9 @@ ActiveRecord::Schema.define(version: 2024_06_11_045522) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id", null: false
+    t.string "address"
+    t.float "latitude"
+    t.float "longitude"
     t.index ["user_id"], name: "index_spots_on_user_id"
   end
 

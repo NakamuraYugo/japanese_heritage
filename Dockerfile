@@ -11,6 +11,10 @@ RUN apt-get update -qq && \
     apt-get update && \
     apt-get install -y yarn && \
     apt-get install -y vim
+
+# エディタの設定
+ENV EDITOR=vim
+
 # 作業ディレクトリの設定
 WORKDIR /japanese-heritage
 
