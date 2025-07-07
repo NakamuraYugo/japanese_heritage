@@ -35,4 +35,18 @@ import 'lightbox2';
 import 'lightbox2/dist/css/lightbox.css';
 import 'lightbox2/dist/js/lightbox.min.js';
 import './delete_spots_confirmation.js';
-import './spot_map.js';
+
+$(document).on('turbolinks:load', function() {
+  const $map = $('#map');
+  if (!$map.length) return;
+
+  import('../spot_map.js')
+    .then((module) => {
+      const initFn = module.default && module.default.init;
+      if (typeof initFn === 'function') {
+        initFn($map[0]);
+      }
+    })
+    .catch((err) => console.error(err));
+});
+
