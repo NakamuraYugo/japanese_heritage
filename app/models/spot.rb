@@ -21,8 +21,8 @@ class Spot < ApplicationRecord
   end
 
   def should_geocode?
-    (address_changed? && address.present?) ||
-      (address.blank? && name_changed? && name.present?)
+    (will_save_change_to_address? && address.present?) ||
+      (address.blank? && will_save_change_to_name? && name.present?)
   end
 
   def must_have_image
