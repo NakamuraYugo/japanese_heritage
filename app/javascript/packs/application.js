@@ -40,7 +40,7 @@ $(document).on('turbolinks:load', function() {
   const $map = $('#map');
   if (!$map.length) return;
 
-  import('../spot_map.js')
+  import('./spot_map.js')
     .then((module) => {
       const initFn = module.default && module.default.init;
       if (typeof initFn === 'function') {
