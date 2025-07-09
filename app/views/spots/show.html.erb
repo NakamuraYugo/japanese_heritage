@@ -9,7 +9,9 @@
         <div class="spot-gallery">
           <% @spot.images.each do |image| %>
             <div class="gallery-item">
-              <%= image_tag image.name.url, class: 'spot-image' %>
+              <%= link_to image.name.url, data: { lightbox: 'spot-images' } do %>
+                <%= image_tag image.name.url, class: 'spot-image' %>
+              <% end %>
             </div>
           <% end %>
         </div>
@@ -26,34 +28,34 @@
                 data-lat="<%= @spot.latitude %>"
                 data-lng="<%= @spot.longitude %>"></div>
           </div>
-          <%= javascript_pack_tag 'spot_map' %>
           <%= javascript_include_tag \
-            "https://maps.googleapis.com/maps/api/js?key=#{Rails.application.credentials.dig(:google_maps, :api_key)}&callback=initMap",
+            "https://maps.googleapis.com/maps/api/js?key=#{Rails.application.credentials.dig(:google_maps, :api_key)}",
             async: true, defer: true %>
 
         <% elsif @spot.address.present? %>
           <p class="spot-address"><%= @spot.address %></p>
           <div class="alert alert-warning no-location-message">
-            入力された住所「<strong><%= @spot.address %></strong>」は
-            マップ上で見つかりませんでした。<br>
-            お手数ですが、正式な住所またはスポット名をご確認の上、修正してください。
-            <%= link_to "スポットを編集する", edit_spot_path(@spot),
-                        class: "btn btn-sm btn-outline-primary mt-2" %>
+            <p>入力された住所「<strong><%= @spot.address %></strong>」は
+            マップ上で見つかりませんでした。<p>
+            <p>お手数ですが、正式な住所またはスポット名をご確認の上、修正してください。</p>
+            <p class="no-location-action">
+              <%= link_to "スポットを編集する", edit_spot_path(@spot),
+                          class: "btn btn-sm btn-outline-primary mt-2" %>
+            </p>
           </div>
 
         <% else %>
           <div class="alert alert-warning no-location-message">
-            まだ住所が登録されていません。<br>
-            住所や正式名称を入力していただくと、
-            正確な地図表示が可能になります。<br>
-            <%= link_to "スポットを編集する", edit_spot_path(@spot),
-                        class: "btn btn-sm btn-outline-primary mt-2" %>
+            <p>まだ住所が登録されていません。</p>
+            <p>住所や正式名称を入力していただくと、
+            正確な地図表示が可能になります。</p>
+            <p class="no-location-action">
+              <%= link_to "スポットを編集する", edit_spot_path(@spot),
+                          class: "btn btn-sm btn-outline-primary mt-2" %>
+            </p>
           </div>
         <% end %>
       </div>
-
-
-
 
     <% if current_user == @spot.user %>
       <div class="management-buttons">
