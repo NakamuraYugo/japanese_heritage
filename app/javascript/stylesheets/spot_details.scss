@@ -138,10 +138,12 @@
     padding: 0.5rem 0.75rem;
     font-size: 0.85rem;
 
-    br {
-      content: "";
-      display: block;
-      margin: 0.25rem 0;
+    p {
+      margin: 0 0 0.5rem;
+    }
+
+    p.no-location-action {
+      margin-bottom: 0;
     }
   }
 }
