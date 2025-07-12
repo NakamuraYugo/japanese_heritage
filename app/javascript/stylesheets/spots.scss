@@ -3,7 +3,7 @@
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
 
-.spot_badge::after{
+.spot-badge::after{
   content: "必須";
   color: #fff;
   background-color: #ff1100;
@@ -13,7 +13,7 @@
   margin: 0 5px;
 }
 
-.spot_badge_any::after{
+.spot-badge-any::after{
   content: "任意";
   color: #fff;
   background-color: #0084ff;
