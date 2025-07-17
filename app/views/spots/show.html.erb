@@ -10,7 +10,7 @@
           <% @spot.images.each do |image| %>
             <div class="gallery-item">
               <%= link_to image.name.url, data: { lightbox: 'spot-images' } do %>
-                <%= image_tag image.name.url, class: 'spot-image' %>
+                <%= image_tag image.name.url, class: 'spot-image', alt: image.name %>
               <% end %>
             </div>
           <% end %>
