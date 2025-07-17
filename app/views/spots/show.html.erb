@@ -29,8 +29,7 @@
                 data-lng="<%= @spot.longitude %>"></div>
           </div>
           <%= javascript_include_tag \
-            "https://maps.googleapis.com/maps/api/js?key=#{Rails.application.credentials.dig(:google_maps, :api_key)}",
-            async: true, defer: true %>
+            "https://maps.googleapis.com/maps/api/js?key=#{Rails.application.credentials.dig(:google_maps, :api_key)}&callback=initMap", defer: true %>
 
         <% elsif @spot.address.present? %>
           <p class="spot-address"><%= @spot.address %></p>
