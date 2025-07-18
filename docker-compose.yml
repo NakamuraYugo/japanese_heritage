@@ -25,7 +25,6 @@ services:
       DB_HOST: db
       DB_USERNAME: user
       DB_PASSWORD: password
-      GEOCODING_API_KEY: ${GEOCODING_API_KEY}
     tty: true
     stdin_open: true
 

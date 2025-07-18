@@ -10,7 +10,7 @@ Geocoder.configure(
   # api_key: nil,               # API key for geocoding service
   # cache: nil,                 # cache object (must respond to #[], #[]=, and #del)
   lookup:    :google,                     # Google Geocoding API を使う設定
-  api_key:   ENV["GEOCODING_API_KEY"],  # 先ほど docker-compose で渡した環境変数を参照
+  api_key:   Rails.application.credentials.dig(:geocoding, :api_key), # Google Geocoding APIのAPIキーをRailsのcredentialsから取得
   timeout:   5,                           # リクエストのタイムアウト秒数
   language:  :ja,                         # 日本語住所で検索するように指定
   use_https: true ,                       # HTTPSを使うように指定
