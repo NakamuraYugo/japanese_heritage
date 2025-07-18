@@ -35,7 +35,7 @@
           <p class="spot-address"><%= @spot.address %></p>
           <div class="alert alert-warning no-location-message">
             <p>入力された住所「<strong><%= @spot.address %></strong>」は
-            マップ上で見つかりませんでした。<p>
+            マップ上で見つかりませんでした。</p>
             <p>お手数ですが、正式な住所またはスポット名をご確認の上、修正してください。</p>
             <p class="no-location-action">
               <%= link_to "スポットを編集する", edit_spot_path(@spot),
