@@ -13,7 +13,7 @@ Geocoder.configure(
   api_key:   Rails.application.credentials.dig(:geocoding, :api_key), # Google Geocoding APIのAPIキーをRailsのcredentialsから取得
   timeout:   5,                           # リクエストのタイムアウト秒数
   language:  :ja,                         # 日本語住所で検索するように指定
-  use_https: true ,                       # HTTPSを使うように指定
+  use_https: true,                       # HTTPSを使うように指定
   # Exceptions that should not be rescued by default
   # (if you want to implement custom error handling);
   # supports SocketError and Timeout::Error
