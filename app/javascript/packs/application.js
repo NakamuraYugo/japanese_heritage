@@ -37,16 +37,21 @@ import 'lightbox2/dist/js/lightbox.min.js';
 import './delete_spots_confirmation.js';
 
 $(document).on('turbolinks:load', () => {
-  window.initMap = () => {
-    const $map = $('#map');
-    if (!$map.length) return;
+  if ($('#map').length && !window.initMap) {
+    window.initMap = () => {
+      const $map = $('#map');
+      if (!$map.length) return;
+      import('./spot_map.js')
+        .then(module => {
+          if (module.default && typeof module.default.init === 'function') {
+            module.default.init($map[0]);
+          }
+        })
+        .catch(err => console.error('Failed to load spot_map.js:', err));
+    };
+  }
+});
 
-    import('./spot_map.js')
-      .then(module => {
-        if (module.default && typeof module.default.init === 'function') {
-          module.default.init($map[0]);
-        }
-      })
-      .catch(err => console.error('Failed to load spot_map.js:', err));
-  };
+$(document).on('turbolinks:before-cache', () => {
+  delete window.initMap;
 });
