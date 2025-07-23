@@ -1,5 +1,4 @@
 export default {
-  // JSDoc（ジェイエスドック）
   /**
    * @param {HTMLElement} mapEl
    */
@@ -12,4 +11,4 @@ export default {
     });
     new google.maps.Marker({ position: { lat, lng }, map: map });
   }
-};
+}
