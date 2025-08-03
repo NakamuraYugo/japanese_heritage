@@ -47,13 +47,3 @@ window.initMap = () => {
     })
     .catch(err => console.error('Failed to load spot_map.js:', err));
 };
-
-$(document).on('turbolinks:load', () => {
-  if ($('#map').length) {
-    window.initMap();
-  }
-});
-
-$(document).on('turbolinks:before-cache', () => {
-  delete window.initMap;
-});
