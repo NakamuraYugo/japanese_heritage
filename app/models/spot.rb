@@ -20,16 +20,20 @@ class Spot < ApplicationRecord
     address.presence || name
   end
 
+  def same_text?(old, new)
+    old.to_s.strip.downcase == new.to_s.strip.downcase
+  end
+
   def should_geocode?
     if will_save_change_to_address? && address.present?
       old, new = address_before_last_save, address
-      return false if old.to_s.strip.downcase == new.to_s.strip.downcase
+      return false if same_text?(old, new)
       return true
     end
 
     if address.blank? && will_save_change_to_name? && name.present?
       old, new = name_before_last_save, name
-      return false if old.to_s.strip.downcase == new.to_s.strip.downcase
+      return false if same_text?(old, new)
       return true
     end
     false
