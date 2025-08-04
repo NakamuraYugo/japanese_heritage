@@ -26,7 +26,8 @@
           <div class="map-container">
             <div id="map"
                 data-lat="<%= @spot.latitude %>"
-                data-lng="<%= @spot.longitude %>"></div>
+                data-lng="<%= @spot.longitude %>"
+                data-zoom="13"></div>
           </div>
           <%= javascript_include_tag \
             "https://maps.googleapis.com/maps/api/js?key=#{Rails.application.credentials.dig(:google_maps, :api_key)}&callback=initMap", defer: true %>
