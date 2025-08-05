@@ -37,12 +37,12 @@ import 'lightbox2/dist/js/lightbox.min.js';
 import './delete_spots_confirmation.js';
 
 window.initMap = () => {
-  const $map = $('#map');
-  if (!$map.length) return;
+  const map = document.getElementById('map');
+  if (!map) return;
   import('./spot_map.js')
     .then(module => {
       if (module.default && typeof module.default.init === 'function') {
-        module.default.init($map[0]);
+        module.default.init(map);
       }
     })
     .catch(err => console.error('Failed to load spot_map.js:', err));
