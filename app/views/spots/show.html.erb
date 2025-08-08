@@ -29,8 +29,9 @@
                 data-lng="<%= @spot.longitude %>"
                 data-zoom="13"></div>
           </div>
+          <% api_key = h(Rails.application.credentials.dig(:google_maps, :api_key)) %>
           <%= javascript_include_tag \
-            "https://maps.googleapis.com/maps/api/js?key=#{Rails.application.credentials.dig(:google_maps, :api_key)}&callback=initMap", defer: true %>
+            "https://maps.googleapis.com/maps/api/js?key=#{api_key}&callback=initMap", defer: true %>
 
         <% elsif @spot.address.present? %>
           <p class="spot-address"><%= @spot.address %></p>
