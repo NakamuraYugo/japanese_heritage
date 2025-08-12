@@ -39,6 +39,7 @@ import './delete_spots_confirmation.js';
 window.initMap = () => {
   const map = document.getElementById('map');
   if (!map) return;
+  if (!map.dataset.lat || !map.dataset.lng) return;
   import('./spot_map.js')
     .then(module => {
       if (module.default && typeof module.default.init === 'function') {
