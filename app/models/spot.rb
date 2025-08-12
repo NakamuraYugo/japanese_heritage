@@ -25,16 +25,23 @@ class Spot < ApplicationRecord
   end
 
   def should_geocode?
+    return true if address_changed_meaningfully?
+    return true if name_changed_meaningfully?
+    false
+  end
+
+  def address_changed_meaningfully?
     if will_save_change_to_address? && address.present?
       old, new = address_before_last_save, address
-      return false if same_text?(old, new)
-      return true
+      return !same_text?(old, new)
     end
+    false
+  end
 
+  def name_changed_meaningfully?
     if address.blank? && will_save_change_to_name? && name.present?
       old, new = name_before_last_save, name
-      return false if same_text?(old, new)
-      return true
+      return !same_text?(old, new)
     end
     false
   end
