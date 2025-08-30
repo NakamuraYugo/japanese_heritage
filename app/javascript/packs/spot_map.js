@@ -1,38 +1,44 @@
+/* global google */ // Google Maps JS API のグローバルを利用（lint対策）
+
 /**
  * @module spot_map
- * @description
- *   このモジュールは指定された緯度経度・ズームでGoogle Mapを初期化し、
- *   対象位置にマーカーを表示するシンプルなインターフェースを提供します。
- *
- * @example
- *   // HTML:
- *   // <div id="map" data-lat="35.6895" data-lng="139.6917" data-zoom="14"></div>
- *
- *   // JavaScript:
- *   import spotMap from './spot_map';
- *   const mapEl = document.getElementById('map');
- *   spotMap.init(mapEl);
- *
- * @exports spot_map
+ * 指定要素の data-lat / data-lng / data-zoom から Google Map を初期化します。
+ * defensive check(防御的な存在確認) を追加して安全に動かします。
  */
-export default {
+const spotMap = {
   /**
-   * 指定したHTML要素(mapEl)のデータ属性をもとにGoogle Mapを初期化します。
-   *
-   * @param {HTMLElement} mapEl - 緯度・経度・ズーム情報を含む要素
+   * @param {HTMLElement} mapEl - 緯度・経度・ズーム情報を含む要素(#map)
    */
   init(mapEl) {
+    if (!mapEl) return;
+
+    // 1) 座標バリデーション（validation: 値の検証）
     const lat = parseFloat(mapEl.dataset.lat);
     const lng = parseFloat(mapEl.dataset.lng);
-    if (isNaN(lat) || isNaN(lng)) {
+    if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
       console.error("Invalid latitude or longitude for map element:", mapEl);
       return;
     }
-    const zoom = mapEl.dataset.zoom ? parseInt(mapEl.dataset.zoom, 10) : 15;
-    const map = new google.maps.Map(mapEl, {
+
+    // 2) Google Maps JS API の存在確認（defensive check: 防御策）
+    if (typeof window.google === 'undefined' || !window.google.maps) {
+      console.error("Google Maps API is not loaded. Cannot initialize map for element:", mapEl);
+      return;
+    }
+
+    // 3) zoom のフォールバック（fallback: 代替値）
+    const parsedZoom = parseInt(mapEl.dataset.zoom, 10);
+    const zoom = Number.isNaN(parsedZoom) ? 15 : parsedZoom;
+    // 必要なら 1〜21 にクランプ:
+    // const zoom = Math.min(21, Math.max(1, Number.isNaN(parsedZoom) ? 15 : parsedZoom));
+
+    // 4) Map/Marker 初期化（initialize/初期化）
+    const map = new window.google.maps.Map(mapEl, {
       center: { lat, lng },
-      zoom: zoom
+      zoom
     });
-    new google.maps.Marker({ position: { lat, lng }, map: map });
+    new window.google.maps.Marker({ position: { lat, lng }, map });
   }
-}
+};
+
+export default spotMap;
