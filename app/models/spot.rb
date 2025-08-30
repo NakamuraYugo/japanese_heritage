@@ -11,7 +11,11 @@ class Spot < ApplicationRecord
 
   geocoded_by :lookup_address
 
-  after_validation :geocode, if: :should_geocode?
+  # 同期の geocode は廃止（遅延・不安定化の原因）
+  # after_validation :geocode, if: :should_geocode?
+
+  # 保存成功後に非同期ジョブで geocode（外部APIはUIスレッドから切り離す）
+  after_commit :enqueue_geocoding_job, on: %i[create update]
 
 
   private
@@ -24,26 +28,22 @@ class Spot < ApplicationRecord
     old.to_s.strip.downcase == new.to_s.strip.downcase
   end
 
-  def should_geocode?
-    return true if address_changed_meaningfully?
-    return true if name_changed_meaningfully?
-    false
+  def should_enqueue_geocoding_after_commit?
+    if address.present? && previous_changes['address'].present?
+      old, new = previous_changes['address']
+      !same_text?(old, new)
+    elsif address.blank? && previous_changes['name'].present?
+      old, new = previous_changes['name']
+      !same_text?(old, new)
+    else
+      false
+    end
   end
 
-  def address_changed_meaningfully?
-    if will_save_change_to_address? && address.present?
-      old, new = address_before_last_save, address
-      return !same_text?(old, new)
-    end
-    false
-  end
-
-  def name_changed_meaningfully?
-    if address.blank? && will_save_change_to_name? && name.present?
-      old, new = name_before_last_save, name
-      return !same_text?(old, new)
-    end
-    false
+  def enqueue_geocoding_job
+    return unless should_enqueue_geocoding_after_commit?
+    # enqueue時点の lookup を渡し、ジョブ側で古いジョブを自然に無効化
+    SpotGeocodeJob.perform_later(self.id, lookup_address.to_s)
   end
 
   def must_have_image
