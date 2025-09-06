@@ -17,6 +17,9 @@ class Spot < ApplicationRecord
   # 保存成功後に非同期ジョブで geocode（外部APIはUIスレッドから切り離す）
   after_commit :enqueue_geocoding_job, on: %i[create update]
 
+  def geocode_query
+    lookup_address.to_s
+  end
 
   private
 
@@ -42,8 +45,8 @@ class Spot < ApplicationRecord
 
   def enqueue_geocoding_job
     return unless should_enqueue_geocoding_after_commit?
-    # enqueue時点の lookup を渡し、ジョブ側で古いジョブを自然に無効化
-    SpotGeocodeJob.perform_later(self.id, lookup_address.to_s)
+    # enqueue時点の geocode_query を渡し、ジョブ側で古いジョブを自然に無効化
+    SpotGeocodeJob.perform_later(id, geocode_query)
   end
 
   def must_have_image

@@ -12,7 +12,7 @@ class SpotGeocodeJob < ApplicationJob
     return unless spot
 
     # 現在の検索文字列（保存後の最新）と、enqueue時に渡された値が一致しない=古いジョブなので中断
-    current_lookup = spot.send(:lookup_address).to_s
+    current_lookup = spot.geocode_query
     return unless same_text?(current_lookup, expected_lookup)
 
     # 計測（任意）
