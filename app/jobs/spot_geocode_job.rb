@@ -13,7 +13,8 @@ class SpotGeocodeJob < ApplicationJob
 
     # 現在の検索文字列（保存後の最新）と、enqueue時に渡された値が一致しない=古いジョブなので中断
     current_lookup = spot.geocode_query
-    return unless same_text?(current_lookup, expected_lookup)
+    expected      = expected_lookup.to_s
+    return unless current_lookup.to_s.strip.casecmp?(expected.strip)
 
     # 計測（任意）
     t0 = Process.clock_gettime(Process::CLOCK_MONOTONIC)
@@ -34,12 +35,5 @@ class SpotGeocodeJob < ApplicationJob
     else
       Rails.logger.warn("[perf] geocode_job spot_id=#{spot.id} not_found api_ms=#{api_ms}")
     end
-  end
-
-  private
-
-  # 前後空白/大小文字違いを無視した同値判定（normalization(正規化)）
-  def same_text?(a, b)
-    a.to_s.strip.downcase == b.to_s.strip.downcase
   end
 end
