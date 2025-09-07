@@ -27,8 +27,8 @@ class Spot < ApplicationRecord
     address.presence || name
   end
 
-  def same_text?(old, new)
-    old.to_s.strip.downcase == new.to_s.strip.downcase
+  def same_text?(a, b)
+    a.to_s.strip.casecmp?(b.to_s.strip)
   end
 
   def should_enqueue_geocoding_after_commit?
