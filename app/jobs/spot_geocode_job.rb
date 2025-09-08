@@ -5,6 +5,17 @@ class SpotGeocodeJob < ApplicationJob
   retry_on Net::OpenTimeout, Net::ReadTimeout, Timeout::Error, SocketError,
            wait: 5.seconds, attempts: 3
 
+  retry_on Geocoder::ServiceUnavailable, wait: 30.seconds, attempts: 5
+
+  # レート制限は指数バックオフ（30s→60s→120s→…）
+  retry_on Geocoder::OverQueryLimitError, attempts: 8 do |job, error|
+    job.retry_job wait: (30 * (2 ** (job.executions - 1))).seconds
+  end
+
+  # 恒久的エラーは破棄（ログは残す）
+  discard_on Geocoder::InvalidRequest
+  discard_on Geocoder::RequestDenied
+
   # @param spot_id [Integer]
   # @param expected_lookup [String] enqueue時点の lookup_address（競合対策）
   def perform(spot_id, expected_lookup)
