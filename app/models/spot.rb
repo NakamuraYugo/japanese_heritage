@@ -11,11 +11,9 @@ class Spot < ApplicationRecord
 
   geocoded_by :lookup_address
 
-  # 同期の geocode は廃止（遅延・不安定化の原因）
-  # after_validation :geocode, if: :should_geocode?
-
-  # 保存成功後に非同期ジョブで geocode（外部APIはUIスレッドから切り離す）
-  after_commit :enqueue_geocoding_job, on: %i[create update]
+  # 保存成功後のみ、必要なときだけジョブenqueue（宣言的に if: を付与）
+  after_commit :enqueue_geocoding_job, on: %i[create update],
+                if: :should_enqueue_geocoding_after_commit?
 
   def geocode_query
     lookup_address.to_s
@@ -31,21 +29,27 @@ class Spot < ApplicationRecord
     a.to_s.strip.casecmp?(b.to_s.strip)
   end
 
+  # === 今回の保存で geocoding を行うべきか？ ===
   def should_enqueue_geocoding_after_commit?
-    if address.present? && previous_changes['address'].present?
-      old, new = previous_changes['address']
-      !same_text?(old, new)
-    elsif address.blank? && previous_changes['name'].present?
-      old, new = previous_changes['name']
-      !same_text?(old, new)
-    else
-      false
-    end
+    address_changed_significantly? || name_changed_significantly?
   end
 
+  # 住所が“実質的に”変わった？（住所があればこちらを優先）
+  def address_changed_significantly?
+    return false unless address.present? && saved_change_to_address?
+    old, new = saved_change_to_address
+    !same_text?(old, new)
+  end
+
+  # 住所が空のときだけ、名称の“実質的な”変更をトリガにする
+  def name_changed_significantly?
+    return false unless address.blank? && saved_change_to_name?
+    old, new = saved_change_to_name
+    !same_text?(old, new)
+  end
+
+  # enqueue は if 条件を満たす時だけ呼ばれる
   def enqueue_geocoding_job
-    return unless should_enqueue_geocoding_after_commit?
-    # enqueue時点の geocode_query を渡し、ジョブ側で古いジョブを自然に無効化
     SpotGeocodeJob.perform_later(id, geocode_query)
   end
 
