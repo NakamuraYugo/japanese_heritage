@@ -29,8 +29,6 @@ const spotMap = {
     // 3) zoom のフォールバック（fallback: 代替値）
     const parsedZoom = parseInt(mapEl.dataset.zoom, 10);
     const zoom = Number.isNaN(parsedZoom) ? 15 : parsedZoom;
-    // 必要なら 1〜21 にクランプ:
-    // const zoom = Math.min(21, Math.max(1, Number.isNaN(parsedZoom) ? 15 : parsedZoom));
 
     // 4) Map/Marker 初期化（initialize/初期化）
     const map = new window.google.maps.Map(mapEl, {
