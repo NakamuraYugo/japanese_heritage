@@ -1,15 +1,20 @@
 class SpotGeocodeJob < ApplicationJob
   queue_as :default
 
+  # --- retry戦略のパラメータ（チューニングしやすいよう定数化） ---
+  BASE_BACKOFF  = 30.seconds      # 初回待機（30s）
+  MAX_BACKOFF   = 30.minutes      # 上限（cap）
+  JITTER_RANGE  = 0..10           # ジッター（秒）※混雑回避に軽く分散（jitter: 小さなランダム揺らぎ）
+
   # 一時的なネットワーク失敗を再試行（必要に応じて調整）
   retry_on Net::OpenTimeout, Net::ReadTimeout, Timeout::Error, SocketError,
            wait: 5.seconds, attempts: 3
 
   retry_on Geocoder::ServiceUnavailable, wait: 30.seconds, attempts: 5
 
-  # レート制限は指数バックオフ（30s→60s→120s→…）
-  retry_on Geocoder::OverQueryLimitError, attempts: 8 do |job, error|
-    job.retry_job wait: (30 * (2 ** (job.executions - 1))).seconds
+  # レート制限は指数バックオフ + ジッター（明示的にヘルパーへ委譲）
+  retry_on Geocoder::OverQueryLimitError, attempts: 8 do |job, _|
+    job.retry_job wait: job.class.backoff_wait(job.executions)
   end
 
   # 恒久的エラーは破棄（ログは残す）
@@ -45,6 +50,21 @@ class SpotGeocodeJob < ApplicationJob
       Rails.logger.info("[perf] geocode_job spot_id=#{spot.id} api_ms=#{api_ms}")
     else
       Rails.logger.warn("[perf] geocode_job spot_id=#{spot.id} not_found api_ms=#{api_ms}")
+    end
+  end
+
+  class << self
+    # クラスメソッド化：テストしやすく、retry_on ブロックからも呼びやすい
+    def backoff_wait(executions)
+      base   = BASE_BACKOFF * (2 ** (executions - 1))     # 30s, 60s, 120s, 240s, ...
+      capped = [base, MAX_BACKOFF].min                    # cap 適用
+      jitter = rand(JITTER_RANGE).seconds                 # 0〜10秒の揺らぎ
+      capped + jitter
+    end
+
+    def backoff_wait_no_jitter(executions)
+      base = BASE_BACKOFF * (2 ** (executions - 1))
+      [base, MAX_BACKOFF].min
     end
   end
 end
