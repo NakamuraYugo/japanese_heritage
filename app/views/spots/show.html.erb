@@ -1,33 +1,68 @@
 <div class="container">
   <div class="spot-details">
-    <div class="spot-detail-section">
-      <h2 class="spot-title"><%= @spot.name %></h2>
-    </div>
+    <div class="spot-detail-section layout-two-col">
+      <!-- 左カラム：タイトル・詳細・ギャラリー -->
+      <div class="layout-two-col__info">
+        <h2 class="spot-title"><%= @spot.name %></h2>
+        <p class="spot-description"><%= @spot.description %></p>
+        <h3 class="section-title">スポット画像</h3>
+        <div class="spot-gallery">
+          <% @spot.images.each do |image| %>
+            <div class="gallery-item">
+              <%= link_to image.name.url, data: { lightbox: 'spot-images' } do %>
+                <%= image_tag image.name.url, class: 'spot-image', alt: "スポット画像: #{@spot.name}" %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
 
-    <div class="spot-detail-section">
-      <h3 class="section-title">スポット詳細</h3>
-      <p class="spot-description"><%= @spot.description %></p>
-    </div>
+      <!-- 右カラム：マップ -->
+      <div class="layout-two-col__map">
+        <h3 class="section-title">場所</h3>
 
-    <div class="spot-detail-section">
-      <h3 class="section-title">スポット画像</h3>
-      <div class="spot-gallery">
-        <% @spot.images.each_slice(5) do |images| %>
-          <div class="gallery-row">
-            <% images.each do |image| %>
-              <div class="gallery-item">
-                <a href="<%= image.name.url %>" data-lightbox="spot-images">
-                  <%= image_tag image.name.url, class: 'spot-image' %>
-                </a>
-              </div>
-            <% end %>
+        <% if @spot.latitude.present? && @spot.longitude.present? %>
+          <p class="spot-address"><%= @spot.address %></p>
+          <div class="map-container">
+            <div id="map"
+                data-lat="<%= @spot.latitude %>"
+                data-lng="<%= @spot.longitude %>"
+                data-zoom="13"></div>
+          </div>
+          <% api_key = h(Rails.application.credentials.dig(:google_maps, :api_key)) %>
+          <%= javascript_include_tag \
+            "https://maps.googleapis.com/maps/api/js?key=#{api_key}&callback=initMap", defer: true %>
+
+        <% elsif @spot.address.present? %>
+          <p class="spot-address"><%= @spot.address %></p>
+          <div class="alert alert-warning no-location-message">
+            <p>入力された住所「<strong><%= @spot.address %></strong>」は
+            マップ上で見つかりませんでした。</p>
+            <p>お手数ですが、正式な住所またはスポット名をご確認の上、修正してください。</p>
+            <p class="no-location-action">
+              <%= link_to "スポットを編集する", edit_spot_path(@spot),
+                          class: "btn btn-sm btn-outline-primary mt-2" %>
+            </p>
+          </div>
+
+        <% else %>
+          <div class="alert alert-warning no-location-message">
+            <p>まだ住所が登録されていません。</p>
+            <p>住所や正式名称を入力していただくと、
+            正確な地図表示が可能になります。</p>
+            <p class="no-location-action">
+              <%= link_to "スポットを編集する", edit_spot_path(@spot),
+                          class: "btn btn-sm btn-outline-primary mt-2" %>
+            </p>
           </div>
         <% end %>
       </div>
+
     <% if current_user == @spot.user %>
-      <%= link_to '編集する', edit_spot_path(@spot), class: 'btn btn-primary' %>
-      <%= link_to '削除する', spot_path(@spot), class: 'btn btn-danger sweet-delete' %>
+      <div class="management-buttons">
+        <%= link_to '編集する', edit_spot_path(@spot), class: 'btn btn-primary' %>
+        <%= link_to '削除する', spot_path(@spot), class: 'btn btn-danger sweet-delete' %>
+      </div>
     <% end %>
-    </div>
   </div>
 </div>

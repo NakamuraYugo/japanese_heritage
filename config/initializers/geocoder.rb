@@ -1,0 +1,40 @@
+Geocoder.configure(
+  # Geocoding options
+  # timeout: 3,                 # geocoding service timeout (secs)
+  # lookup: :nominatim,         # name of geocoding service (symbol)
+  # ip_lookup: :ipinfo_io,      # name of IP address geocoding service (symbol)
+  # language: :en,              # ISO-639 language code
+  # use_https: false,           # use HTTPS for lookup requests? (if supported)
+  # http_proxy: nil,            # HTTP proxy server (user:pass@host:port)
+  # https_proxy: nil,           # HTTPS proxy server (user:pass@host:port)
+  # api_key: nil,               # API key for geocoding service
+  # cache: nil,                 # cache object (must respond to #[], #[]=, and #del)
+  lookup:    :google,                   # Google Geocoding API を使う設定
+  api_key:   Rails.application.credentials.dig(:geocoding, :api_key), # Google Geocoding APIのAPIキーをRailsのcredentialsから取得
+  timeout:   5,                         # リクエストのタイムアウト秒数
+  language:  :ja,                       # 日本語住所で検索するように指定
+  use_https: true,                      # HTTPSを使うように指定
+  params:    { region: 'jp' },          # 日本国内の住所を優先的に検索するように指定
+  always_raise: [
+    Timeout::Error,            # タイムアウト
+    SocketError,               # ネットワーク系
+    Geocoder::ServiceUnavailable,   # サービス一時停止（503等）
+    Geocoder::OverQueryLimitError,  # レート制限
+    Geocoder::RequestDenied,        # 権限/設定不正（恒久的）
+    Geocoder::InvalidRequest        # 無効リクエスト（恒久的）
+  ]
+  # Exceptions that should not be rescued by default
+  # (if you want to implement custom error handling);
+  # supports SocketError and Timeout::Error
+  # always_raise: [],
+
+  # Calculation options
+  # units: :mi,                 # :km for kilometers or :mi for miles
+  # distances: :linear          # :spherical or :linear
+
+  # Cache configuration
+  # cache_options: {
+  #   expiration: 2.days,
+  #   prefix: 'geocoder:'
+  # }
+)

@@ -81,7 +81,7 @@ class SpotsController < ApplicationController
 
   def spot_params
     params.require(:spot)
-          .permit(:name, :description,
+          .permit(:name, :description, :address,
                   images_attributes: [:id, :name, :name_cache, :_destroy])
   end
 end

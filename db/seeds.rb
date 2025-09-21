@@ -22,7 +22,8 @@ end
 15.times do
   spot = specific_user.spots.build(
     name:        Faker::Address.city + Faker::Lorem.characters(number: 4),
-    description: Faker::Lorem.paragraph(sentence_count: 3)
+    description: Faker::Lorem.paragraph(sentence_count: 3),
+    address:     Faker::Address.full_address
   )
 
   rand(1..3).times do
@@ -44,7 +45,8 @@ end
   rand(3..8).times do
     spot = user.spots.build(
       name:        Faker::Address.city + Faker::Lorem.characters(number: 4),
-      description: Faker::Lorem.paragraph(sentence_count: 4)
+      description: Faker::Lorem.paragraph(sentence_count: 4),
+      address:     Faker::Address.full_address
     )
 
     rand(1..4).times do
