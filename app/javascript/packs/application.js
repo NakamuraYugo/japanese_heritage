@@ -35,6 +35,7 @@ import 'lightbox2';
 import 'lightbox2/dist/css/lightbox.css';
 import 'lightbox2/dist/js/lightbox.min.js';
 import './delete_spots_confirmation.js';
+import './flash_messages';
 
 function bootMap() {
   const map = document.getElementById('map');

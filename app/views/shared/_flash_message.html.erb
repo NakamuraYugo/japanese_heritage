@@ -1,33 +1,9 @@
+<%# フラッシュがある時だけ、データノードを出力 %>
 <% if flash.present? %>
-  <script>
-    function getIconByType(type) {
-      switch(type) {
-        case 'success':
-        case 'notice':
-          return 'success';
-        case 'danger':
-        case 'alert':
-          return 'error';
-        default:
-          return 'info';
-      }
-    }
-
-    function showFlashMessages() {
-      <% flash.each do |message_type, message| %>
-        Swal.fire({
-          icon: getIconByType("<%= message_type %>"),
-          title: "<%= j message %>",
-          toast: true,
-          position: 'top',
-          showConfirmButton: false,
-          timer: 5000
-        });
-      <% end %>
-    }
-
-    document.addEventListener('DOMContentLoaded', showFlashMessages);
-
-    document.addEventListener('turbolinks:load', showFlashMessages);
-  </script>
+  <div id="flash-messages" aria-live="polite" class="sr-only"></div>
+  <% flash.each do |type, message| %>
+    <div class="js-flash-message"
+         data-flash-type="<%= type %>"
+         data-flash-message="<%= j message %>"></div>
+  <% end %>
 <% end %>
