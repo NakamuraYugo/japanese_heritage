@@ -17,9 +17,6 @@ require("bootstrap");
 const images = require.context('../images', true)
 const imagePath = (name) => images(name, true)
 
-import Swal from 'sweetalert2'
-window.Swal = Swal
-
 import 'bootstrap'
 import "../stylesheets/application.scss";
 import '@fortawesome/fontawesome-free/js/all';
