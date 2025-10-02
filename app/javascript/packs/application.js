@@ -17,9 +17,6 @@ require("bootstrap");
 const images = require.context('../images', true)
 const imagePath = (name) => images(name, true)
 
-import Swal from 'sweetalert2'
-window.Swal = Swal
-
 import 'bootstrap'
 import "../stylesheets/application.scss";
 import '@fortawesome/fontawesome-free/js/all';
@@ -35,6 +32,7 @@ import 'lightbox2';
 import 'lightbox2/dist/css/lightbox.css';
 import 'lightbox2/dist/js/lightbox.min.js';
 import './delete_spots_confirmation.js';
+import './flash_messages';
 
 function bootMap() {
   const map = document.getElementById('map');
